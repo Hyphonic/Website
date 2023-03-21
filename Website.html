@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hyphonical's Store</title>
+		<link href='https://fonts.googleapis.com/css?family=Nunito:400,700' rel='stylesheet'>
+		<link rel='stylesheet' href='https://pyscript.net/latest/pyscript.css' />
+		<script defer src='https://pyscript.net/latest/pyscript.js'></script>
+		<script type='text/javascript' src='http://livejs.com/live.js'></script>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+		<meta charset='utf-8'/>
+		<style>
+			body {
+				background-color: #FFFFFF;
+				font-family: Nunito;
+			}
+
+			#video-background {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				min-width: 100%;
+				min-height: 100%;
+				width: auto;
+				height: auto;
+				z-index: -100;
+				transform: translateX(-50%) translateY(-50%);
+			}
+
+			.center-content {
+				position: relative;
+				z-index: 1;
+				min-height: 100vh;
+			}
+
+			.bottom-text {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				padding: 20px;
+				color: #808080;
+				font-size: 20px;
+				line-height: 1.5;
+				text-align: center;
+			}
+
+			.square {
+				display: inline-block;
+				width: auto;
+				height: auto;
+				color: white;
+				border-radius: 20px;
+				margin: 20px;
+				text-align: center;
+				padding: 15px;
+				transition: 0.3s;
+				box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+				background: linear-gradient(45deg, #4065FF, #a2b5ff);
+				max-width: 200px;
+				overflow: visible;
+				cursor: pointer;
+			}
+
+			.square:hover {
+				color: linear-gradient(45deg, #4065FF, #a2b5ff);
+				box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+				transform: scale(1.05);
+			}
+
+			.input-field {
+				width: 100%;
+				padding: 10px;
+				margin: 5px 0 22px 0;
+				display: inline-block;
+				border: none;
+				background: #f1f1f1;
+				border-radius: 20px;
+				box-sizing: border-box;
+				outline: none;
+				cursor: pointer;
+				transition: 0.3s;
+				text-align: center;
+			}
+
+			center {
+				color: #4065FF;
+				margin: 50px;
+				font-size: 40px;
+			}
+
+			p {
+				color: #FFFFFF;
+				font-size: 20px;
+				line-height: 1.5;
+				margin: 0 20px;
+			}
+
+			li {
+				color: #4065FF;
+				font-size: 20px;
+				line-height: 1.5;
+			}
+
+			a {
+				color: #4065FF;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<py-config>
+		[splashscreen]
+			enabled = true
+		[[fetch]]
+		files = ['https://raw.githubusercontent.com/Hyphonic/Encryptus/main/Encryptus.py', 'Encryptus.py']
+	</py-config>
+	<py-script>
+		Toggles = {
+			1: False,
+			2: False
+		}
+		def Toggle(Id):
+			global TempEncryptus, TempXonoticScripts
+			if Id == 1:
+				if Toggles[Id] == False:
+					TempEncryptus = pyscript.js.document.getElementById(Id).innerHTML
+					pyscript.js.document.getElementById(Id).innerHTML = '<h3>Encryptus Is An Encryption Library Based On Character-To-Number Conversion</h3> <br> <h3>It Is Currently In Development</h3>'
+					Toggles[Id] = True
+				else:
+					pyscript.js.document.getElementById(Id).innerHTML = TempEncryptus
+					Toggles[Id] = False
+			elif Id == 2:
+				if Toggles[Id] == False:
+					TempXonoticScripts = pyscript.js.document.getElementById(Id).innerHTML
+					pyscript.js.document.getElementById(Id).innerHTML = '<h3>Xonotic Scripts Is A Collection Of Awesome Script That Can Be Used Inside Of Xonotic</h3>'
+					Toggles[Id] = True
+				else:
+					pyscript.js.document.getElementById(Id).innerHTML = TempXonoticScripts
+					Toggles[Id] = False
+	</py-script>
+	<py-script>
+		from Encryptus import Encryptus
+		def Encrypter(String, Key):
+			Crypter = Encryptus(Key, True)
+			pyscript.js.document.getElementById('Converted').innerHTML = f'<a style="color: #FFFFFF">The Encrypted Message Is {Crypter.Encrypt(String)}</a>'
+	</py-script>
+	<body>
+		<video id='video-background' preload='auto' autoplay='true' loop='loop' muted='muted'>
+			<source src='Video.mp4' type='video/mp4'>
+		</video>
+		<div class='center-content'>
+			<center>
+				<h1 style='color: #4065FF; font-size: 60px; margin: 20px 0;'>Hyphonical's Store</h1>
+			</center>
+			<p style='text-align:center;'>
+				Welcome To My <b>Brand New</b> Portfolio!
+				<br>My projects are listed below, Click on one to see more information about it.</br>
+				<br>This website is still in development, so some things may not work as intended.</br>
+			</p>
+			<div class='square' id=1>
+				<h2 id=1>Encryptus</h2>
+				<input class='input-field' type='text' placeholder='Enter Text To Encrypt' id='Encryptus-Input'	>
+				<input class='input-field' type='text' placeholder='Enter Encryption Key' id='Encryptus-Key'>
+				<button class='input-field' id='Encryptus-Encrypt' py-click='Encrypter(pyscript.js.document.getElementById("Encryptus-Input").value, pyscript.js.document.getElementById("Encryptus-Key").value)'>Encrypt</button>
+				<button class='input-field' id='Encryptus-Decrypt'>Decrypt (Soon)</button>
+				<a id='Converted'></a>
+			</div>
+			<div class='square' id=2 py-click='Toggle(2)'>
+				<h2 id=2>Xonotic Scripts</h2>
+			</div>
+			<div class='bottom-text'>
+				<p>
+					Website Made With ❤️, <a href='https://github.com/Hyphonic'>You can find me on Github</a>
+					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path d='M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'></path></svg>
+				</p>
+			</div>
+		</div>
+	</body>
+</html>
