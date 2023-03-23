@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Hyphonical's Store</title>
+		<title>Hyphonical's Portfolio</title>
 		<link href='https://fonts.googleapis.com/css?family=Nunito:400,700' rel='stylesheet'>
 		<link rel='stylesheet' href='https://pyscript.net/latest/pyscript.css' />
 		<script defer src='https://pyscript.net/latest/pyscript.js'></script>
-		<script type='text/javascript' src='http://livejs.com/live.js'></script>
+		<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.1.1/css/all.css'>
 		<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
 		<meta charset='utf-8'/>
 		<style>
@@ -34,7 +34,7 @@
 
 			.bottom-text {
 				position: absolute;
-				bottom: 0;
+				bottom: 10;
 				left: 0;
 				right: 0;
 				padding: 20px;
@@ -46,8 +46,10 @@
 
 			.square {
 				display: inline-block;
-				width: auto;
-				height: auto;
+				width: calc(100% - 80px);
+				height: calc(100% - 80px);
+				min-width: calc(100% - 80px);
+				min-height: calc(100% - 80px);
 				color: white;
 				border-radius: 20px;
 				margin: 20px;
@@ -55,16 +57,11 @@
 				padding: 15px;
 				transition: 0.3s;
 				box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-				background: linear-gradient(45deg, #4065FF, #a2b5ff);
+				background: #202425;
 				max-width: 200px;
 				overflow: visible;
-				cursor: pointer;
-			}
-
-			.square:hover {
-				color: linear-gradient(45deg, #4065FF, #a2b5ff);
-				box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-				transform: scale(1.05);
+				position: relative;
+				font-size: medium;
 			}
 
 			.input-field {
@@ -73,13 +70,69 @@
 				margin: 5px 0 22px 0;
 				display: inline-block;
 				border: none;
-				background: #f1f1f1;
-				border-radius: 20px;
+				background: #2e3435;
+				border-radius: 10px;
 				box-sizing: border-box;
 				outline: none;
 				cursor: pointer;
 				transition: 0.3s;
 				text-align: center;
+			}
+
+			.button {
+				background-color: #FFFFFF;
+				color: #4065FF;
+				padding: 14px 20px;
+				margin: 8px 0;
+				border: none;
+				cursor: pointer;
+				width: 100%;
+				border-radius: 20px;
+				transition: 0.3s;
+			}
+
+			.gradient-text {
+			--bg-size: 400%;
+			--color-one: hsl(3, 100%, 69%);
+			--color-two: hsl(228, 100%, 63%);
+			background: linear-gradient(
+				90deg,
+				var(--color-one),
+				var(--color-two),
+				var(--color-one)
+				)
+				0 0 / var(--bg-size) 100%;
+			color: transparent;
+			background-clip: text;
+			}
+
+			@media (prefers-reduced-motion: no-preference) {
+			.gradient-text {
+				animation: move-bg 10s linear infinite;
+			}
+			@keyframes move-bg {
+				to {
+				background-position: var(--bg-size) 0;
+				}
+			}
+			}
+
+			.badge {
+				position: absolute;
+				top: 0;
+				right: 0;
+				background-color: #FF6961;
+				color: #FFFFFF;
+				padding: 5px 10px;
+				border-radius: 0 0 0 20px;
+				font-size: 12px;
+			}
+
+			.audio-switch {
+				position: absolute;
+				top: 0;
+				left: 0;
+				padding: 5px 10px;;
 			}
 
 			center {
@@ -96,83 +149,128 @@
 			}
 
 			li {
-				color: #4065FF;
 				font-size: 20px;
 				line-height: 1.5;
 			}
 
 			a {
-				color: #4065FF;
+				color: #FFFFFF;
 				text-decoration: none;
+				font-size: 18px;
+			}
+
+			br {
+				color: #FFFFFF;
+				font-size: 20px;
+				line-height: 1.1;
+			}
+
+			h3 {
+				color: #4065FF;
+				line-height: 1.5;
+				margin: 0 20px;
+			}
+
+			svg {
+				width: 20px;
+				height: 20px;
 			}
 		</style>
 	</head>
 	<py-config>
 		[splashscreen]
-			enabled = true
-		[[fetch]]
-		files = ['Encryptus.py']
+			enabled = false
 	</py-config>
-	<py-script>
-		Toggles = {
-			1: False,
-			2: False
-		}
-		def Toggle(Id):
-			global TempEncryptus, TempXonoticScripts
-			if Id == 1:
-				if Toggles[Id] == False:
-					TempEncryptus = pyscript.js.document.getElementById(Id).innerHTML
-					pyscript.js.document.getElementById(Id).innerHTML = '<h3>Encryptus Is An Encryption Library Based On Character-To-Number Conversion</h3> <br> <h3>It Is Currently In Development</h3>'
-					Toggles[Id] = True
-				else:
-					pyscript.js.document.getElementById(Id).innerHTML = TempEncryptus
-					Toggles[Id] = False
-			elif Id == 2:
-				if Toggles[Id] == False:
-					TempXonoticScripts = pyscript.js.document.getElementById(Id).innerHTML
-					pyscript.js.document.getElementById(Id).innerHTML = '<h3>Xonotic Scripts Is A Collection Of Awesome Script That Can Be Used Inside Of Xonotic</h3>'
-					Toggles[Id] = True
-				else:
-					pyscript.js.document.getElementById(Id).innerHTML = TempXonoticScripts
-					Toggles[Id] = False
-	</py-script>
-	<py-script>
-		from Encryptus import Encryptus
-		def Encrypter(String, Key):
-			Crypter = Encryptus(Key, True)
-			pyscript.js.document.getElementById('Converted').innerHTML = f'<a style="color: #FFFFFF">The Encrypted Message Is {Crypter.Encrypt(String)}</a>'
-	</py-script>
 	<body>
-		<video id='video-background' preload='auto' autoplay='true' loop='loop' muted='muted'>
+		<video id='video-background' preload autoplay loop muted>
 			<source src='Video.mp4' type='video/mp4'>
 		</video>
+		<audio id='Audio'>
+			<source src='Music.mp3' type='audio/mp3'>
+		</audio>
+		<span class='audio-switch' onclick=AudioToggle()><svg id='AudioIcon' width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3.24182 2.32181C3.3919 2.23132 3.5784 2.22601 3.73338 2.30781L12.7334 7.05781C12.8974 7.14436 13 7.31457 13 7.5C13 7.68543 12.8974 7.85564 12.7334 7.94219L3.73338 12.6922C3.5784 12.774 3.3919 12.7687 3.24182 12.6782C3.09175 12.5877 3 12.4252 3 12.25V2.75C3 2.57476 3.09175 2.4123 3.24182 2.32181ZM4 3.57925V11.4207L11.4288 7.5L4 3.57925Z' fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'></path></svg></span>
+		<span class='gradient-text'><br>Audio From Horton</br></span>
 		<div class='center-content'>
 			<center>
-				<h1 style='color: #4065FF; font-size: 60px; margin: 20px 0;'>Hyphonical's Store</h1>
+				<h1><span class='gradient-text'>Hyphonical's Portfolio</span></h1>
 			</center>
 			<p style='text-align:center;'>
 				Welcome To My <b>Brand New</b> Portfolio!
 				<br>My projects are listed below, Click on one to see more information about it.</br>
 				<br>This website is still in development, so some things may not work as intended.</br>
 			</p>
-			<div class='square' id=1>
-				<h2 id=1>Encryptus</h2>
-				<input class='input-field' type='text' placeholder='Enter Text To Encrypt' id='Encryptus-Input'	>
-				<input class='input-field' type='text' placeholder='Enter Encryption Key' id='Encryptus-Key'>
-				<button class='input-field' id='Encryptus-Encrypt' py-click='Encrypter(pyscript.js.document.getElementById("Encryptus-Input").value, pyscript.js.document.getElementById("Encryptus-Key").value)'>Encrypt</button>
-				<button class='input-field' id='Encryptus-Decrypt'>Decrypt (Soon)</button>
-				<a id='Converted'></a>
+			<div class='square'>
+				<input type='text' class='input-field' onkeyup='Search()' placeholder='Search' style='color: #FFFFFF;' id='Input'></input>
+				<h3><span class='gradient-text'>My Projects</span></h3>
+				<p>
+					<ul id='FilterUl'>
+						<li><a href='#Encryptus'>Encryptus</a></li>
+						<li><a href='#Xonotic'>Xonotic Scripts</a></li>
+						<li><a href='#About'>About</a></li>
+					</ul>
+				</p>
 			</div>
-			<div class='square' id=2 py-click='Toggle(2)'>
-				<h2 id=2>Xonotic Scripts</h2>
+			<div class='square'>
+				<h3 id='Encryptus'><span class='gradient-text'>Encryptus</span><span class='badge'>New</span></h3>
+				<p>
+					<p>Encryptus is a simple encryption program that I made in Python.</p>
+					<p>It utilizes Character-To-Number encryption, and can be used to encrypt and decrypt text.</p>
+					<p>Click To See A Quick Demo</p>
+					<p><svg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3.85355 2.14645C3.65829 1.95118 3.34171 1.95118 3.14645 2.14645C2.95118 2.34171 2.95118 2.65829 3.14645 2.85355L7.14645 6.85355C7.34171 7.04882 7.65829 7.04882 7.85355 6.85355L11.8536 2.85355C12.0488 2.65829 12.0488 2.34171 11.8536 2.14645C11.6583 1.95118 11.3417 1.95118 11.1464 2.14645L7.5 5.79289L3.85355 2.14645ZM3.85355 8.14645C3.65829 7.95118 3.34171 7.95118 3.14645 8.14645C2.95118 8.34171 2.95118 8.65829 3.14645 8.85355L7.14645 12.8536C7.34171 13.0488 7.65829 13.0488 7.85355 12.8536L11.8536 8.85355C12.0488 8.65829 12.0488 8.34171 11.8536 8.14645C11.6583 7.95118 11.3417 7.95118 11.1464 8.14645L7.5 11.7929L3.85355 8.14645Z' fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'></path></svg></p>
+				</p>
 			</div>
+			<div class='square'>
+				<h3 id='Xonotic'><span class='gradient-text'>Xonotic Scripts</span></h3>
+				<p>
+					<p>I have made a few scripts for the game Xonotic.</p>
+					<p>The most interesting one is color conversion.</p>
+					<p>Here's A Quick Demo</p>
+					<p><svg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3.85355 2.14645C3.65829 1.95118 3.34171 1.95118 3.14645 2.14645C2.95118 2.34171 2.95118 2.65829 3.14645 2.85355L7.14645 6.85355C7.34171 7.04882 7.65829 7.04882 7.85355 6.85355L11.8536 2.85355C12.0488 2.65829 12.0488 2.34171 11.8536 2.14645C11.6583 1.95118 11.3417 1.95118 11.1464 2.14645L7.5 5.79289L3.85355 2.14645ZM3.85355 8.14645C3.65829 7.95118 3.34171 7.95118 3.14645 8.14645C2.95118 8.34171 2.95118 8.65829 3.14645 8.85355L7.14645 12.8536C7.34171 13.0488 7.65829 13.0488 7.85355 12.8536L11.8536 8.85355C12.0488 8.65829 12.0488 8.34171 11.8536 8.14645C11.6583 7.95118 11.3417 7.95118 11.1464 8.14645L7.5 11.7929L3.85355 8.14645Z' fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'></path></svg></p>
+				</p>
+			</div>
+			<div class='square'>
+				<h3 id='About'><span class='gradient-text'>About</span></h3>
+				<p>
+					Soon
+				</p>
 			<div class='bottom-text'>
 				<p>
 					Website Made With ❤️, <a href='https://github.com/Hyphonic'>You can find me on Github</a>
-					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path d='M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'></path></svg>
+					<svg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7.49933 0.25C3.49635 0.25 0.25 3.49593 0.25 7.50024C0.25 10.703 2.32715 13.4206 5.2081 14.3797C5.57084 14.446 5.70302 14.2222 5.70302 14.0299C5.70302 13.8576 5.69679 13.4019 5.69323 12.797C3.67661 13.235 3.25112 11.825 3.25112 11.825C2.92132 10.9874 2.44599 10.7644 2.44599 10.7644C1.78773 10.3149 2.49584 10.3238 2.49584 10.3238C3.22353 10.375 3.60629 11.0711 3.60629 11.0711C4.25298 12.1788 5.30335 11.8588 5.71638 11.6732C5.78225 11.205 5.96962 10.8854 6.17658 10.7043C4.56675 10.5209 2.87415 9.89918 2.87415 7.12104C2.87415 6.32925 3.15677 5.68257 3.62053 5.17563C3.54576 4.99226 3.29697 4.25521 3.69174 3.25691C3.69174 3.25691 4.30015 3.06196 5.68522 3.99973C6.26337 3.83906 6.8838 3.75895 7.50022 3.75583C8.1162 3.75895 8.73619 3.83906 9.31523 3.99973C10.6994 3.06196 11.3069 3.25691 11.3069 3.25691C11.7026 4.25521 11.4538 4.99226 11.3795 5.17563C11.8441 5.68257 12.1245 6.32925 12.1245 7.12104C12.1245 9.9063 10.4292 10.5192 8.81452 10.6985C9.07444 10.9224 9.30633 11.3648 9.30633 12.0413C9.30633 13.0102 9.29742 13.7922 9.29742 14.0299C9.29742 14.2239 9.42828 14.4496 9.79591 14.3788C12.6746 13.4179 14.75 10.7025 14.75 7.50024C14.75 3.49593 11.5036 0.25 7.49933 0.25Z' fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'></path></svg>
 				</p>
 			</div>
 		</div>
+		<script>
+			function Search() {
+				var Input, Filter, ul, li, a, i, TxtValue;
+				Input = document.getElementById('Input'); // Get the input field
+				Filter = Input.value.toUpperCase(); // Get the value of the input field, and make it uppercase
+				ul = document.getElementById('FilterUl'); // Get the <ul> element with id='FilterUl'
+				li = ul.getElementsByTagName('li'); // Get all <li> elements in the <ul> with id='FilterUl'
+
+				// Loop through all list items, and hide those who don't match the search query
+				for (i = 0; i < li.length; i++) {
+					a = li[i].getElementsByTagName('a')[0]; // Get the <a> element inside the <li> element
+					TxtValue = a.textContent || a.innerText; // Get the text inside the <a> element
+					if (TxtValue.toUpperCase().indexOf(Filter) > -1) {
+						li[i].style.display = ''; // Show the <li> element
+					} else {
+						li[i].style.display = 'none'; // Hide the <li> element
+					}
+				}
+			}
+
+			function AudioToggle() {
+				var Audio = document.getElementById('Audio');
+				var Icon = document.getElementById('AudioIcon');
+				if (Audio.paused) {
+					Icon.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.04995 2.74998C6.04995 2.44623 5.80371 2.19998 5.49995 2.19998C5.19619 2.19998 4.94995 2.44623 4.94995 2.74998V12.25C4.94995 12.5537 5.19619 12.8 5.49995 12.8C5.80371 12.8 6.04995 12.5537 6.04995 12.25V2.74998ZM10.05 2.74998C10.05 2.44623 9.80371 2.19998 9.49995 2.19998C9.19619 2.19998 8.94995 2.44623 8.94995 2.74998V12.25C8.94995 12.5537 9.19619 12.8 9.49995 12.8C9.80371 12.8 10.05 12.5537 10.05 12.25V2.74998Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>';
+					Audio.play();
+				} else {
+					Icon.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.24182 2.32181C3.3919 2.23132 3.5784 2.22601 3.73338 2.30781L12.7334 7.05781C12.8974 7.14436 13 7.31457 13 7.5C13 7.68543 12.8974 7.85564 12.7334 7.94219L3.73338 12.6922C3.5784 12.774 3.3919 12.7687 3.24182 12.6782C3.09175 12.5877 3 12.4252 3 12.25V2.75C3 2.57476 3.09175 2.4123 3.24182 2.32181ZM4 3.57925V11.4207L11.4288 7.5L4 3.57925Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>';
+					Audio.pause();
+				}
+			}
+		</script>
 	</body>
 </html>
