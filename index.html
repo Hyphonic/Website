@@ -221,7 +221,7 @@
 			pyscript.js.document.getElementById('Output1').innerHTML = '<span id="Encrypted"></span>'
 			global Encryptus
 			if Message == '' or Key == '':
-				pyscript.js.document.getElementById('Output1').innerHTML = '<span class='warning'>Please enter a message and key</span>'
+				pyscript.js.document.getElementById('Output1').innerHTML = '<span class='warning'>Please enter a message and key!</span>'
 			else:
 				pyscript.js.document.getElementById('Output1').innerHTML = Encryptus(Key, True).Encrypt(Message)
 		
