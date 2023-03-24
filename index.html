@@ -26,6 +26,19 @@
 				transform: translateX(-50%) translateY(-50%);
 			}
 
+			#loading-screen {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-50%);
+				min-width: 100%;
+				min-height: 100%;
+				width: auto;
+				height: auto;
+				z-index: 100;
+				background-color: #2e3435;
+			}
+
 			.center-content {
 				position: relative;
 				z-index: 1;
@@ -80,14 +93,14 @@
 			}
 
 			.button {
-				background-color: #FFFFFF;
-				color: #4065FF;
+				background-color: #2e3435;
+				color: #ffffff;
 				padding: 14px 20px;
 				margin: 8px 0;
 				border: none;
 				cursor: pointer;
 				width: 100%;
-				border-radius: 20px;
+				border-radius: 10px;
 				transition: 0.3s;
 			}
 
@@ -117,6 +130,14 @@
 			}
 			}
 
+			.warning {
+				background-color: #FF6961;
+				color: #FFFFFF;
+				padding: 5px 10px;
+				border-radius: 20px;
+				font-size: 12px;
+			}
+
 			.badge {
 				position: absolute;
 				top: 0;
@@ -133,6 +154,13 @@
 				top: 0;
 				left: 0;
 				padding: 5px 10px;;
+			}
+
+			form {
+				text-align: center;
+				display: flex;
+				flex-direction: row;
+				padding: 1px;
 			}
 
 			center {
@@ -178,9 +206,41 @@
 		</style>
 	</head>
 	<py-config>
+		packages = ['colour']
 		[splashscreen]
 			enabled = false
+		[[fetch]]
+			files = ['Encryptus.py']			
 	</py-config>
+	<py-script>
+		from Encryptus import Encryptus
+		from random import randint
+		import colour
+
+		def Encrypt(Message, Key):
+			pyscript.js.document.getElementById('Output1').innerHTML = '<span id="Encrypted"></span>'
+			global Encryptus
+			if Message == '' or Key == '':
+				pyscript.js.document.getElementById('Output1').innerHTML = '<span class='warning'>Please enter a message and key</span>'
+			else:
+				pyscript.js.document.getElementById('Output1').innerHTML = Encryptus(Key, True).Encrypt(Message)
+		
+		def Convert(Message, Color1, Color2):
+			pyscript.js.document.getElementById('Output2').innerHTML = '<span id="Converted"></span>'
+			Color1 = colour.Color(Color1)
+			Color2 = colour.Color(Color2)
+			Ranges = list(Color1.range_to(Color2, len(Message)))
+			RangeList = []
+			for Letter in Message:
+				Range = Ranges.pop(0)
+				Range = list(Range.hex_l)[1:]
+				Range = Range[0:1], Range[2:3], Range[4:5]
+				Range = ''.join((''.join(Range[0]), ''.join(Range[1]), ''.join(Range[2])))
+				Range = '^x'+Range+Letter
+				RangeList.append(Range)
+			Converted = 'Say '+''.join(RangeList)
+			pyscript.js.document.getElementById('Output2').innerHTML = Converted
+	</py-script>
 	<body>
 		<video id='video-background' preload autoplay loop muted>
 			<source src='Video.mp4' type='video/mp4'>
@@ -215,8 +275,12 @@
 				<p>
 					<p>Encryptus is a simple encryption program that I made in Python.</p>
 					<p>It utilizes Character-To-Number encryption, and can be used to encrypt and decrypt text.</p>
-					<p>Click To See A Quick Demo</p>
+					<p>Decryption is coming soon</p>
 					<p><svg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3.85355 2.14645C3.65829 1.95118 3.34171 1.95118 3.14645 2.14645C2.95118 2.34171 2.95118 2.65829 3.14645 2.85355L7.14645 6.85355C7.34171 7.04882 7.65829 7.04882 7.85355 6.85355L11.8536 2.85355C12.0488 2.65829 12.0488 2.34171 11.8536 2.14645C11.6583 1.95118 11.3417 1.95118 11.1464 2.14645L7.5 5.79289L3.85355 2.14645ZM3.85355 8.14645C3.65829 7.95118 3.34171 7.95118 3.14645 8.14645C2.95118 8.34171 2.95118 8.65829 3.14645 8.85355L7.14645 12.8536C7.34171 13.0488 7.65829 13.0488 7.85355 12.8536L11.8536 8.85355C12.0488 8.65829 12.0488 8.34171 11.8536 8.14645C11.6583 7.95118 11.3417 7.95118 11.1464 8.14645L7.5 11.7929L3.85355 8.14645Z' fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'></path></svg></p>
+					<p><input type='text' class='input-field' placeholder='Enter Your Message To Encrypt' style='color: #FFFFFF;' id='Message1' required></input></p>
+					<p><input type='text' class='input-field' placeholder='Enter Your Encryption Key' style='color: #FFFFFF;' id='Key' required></input></p>
+					<p><button class='button' py-click='Encrypt(js.document.getElementById("Message1").value, js.document.getElementById("Key").value)'>Encrypt</button></p>
+					<span id='Output1'></span>
 				</p>
 			</div>
 			<div class='square'>
@@ -224,8 +288,13 @@
 				<p>
 					<p>I have made a few scripts for the game Xonotic.</p>
 					<p>The most interesting one is color conversion.</p>
-					<p>Here's A Quick Demo</p>
+					<p>Just paste the output into the Console of the game</p>
 					<p><svg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3.85355 2.14645C3.65829 1.95118 3.34171 1.95118 3.14645 2.14645C2.95118 2.34171 2.95118 2.65829 3.14645 2.85355L7.14645 6.85355C7.34171 7.04882 7.65829 7.04882 7.85355 6.85355L11.8536 2.85355C12.0488 2.65829 12.0488 2.34171 11.8536 2.14645C11.6583 1.95118 11.3417 1.95118 11.1464 2.14645L7.5 5.79289L3.85355 2.14645ZM3.85355 8.14645C3.65829 7.95118 3.34171 7.95118 3.14645 8.14645C2.95118 8.34171 2.95118 8.65829 3.14645 8.85355L7.14645 12.8536C7.34171 13.0488 7.65829 13.0488 7.85355 12.8536L11.8536 8.85355C12.0488 8.65829 12.0488 8.34171 11.8536 8.14645C11.6583 7.95118 11.3417 7.95118 11.1464 8.14645L7.5 11.7929L3.85355 8.14645Z' fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'></path></svg></p>
+					<p><input type='text' class='input-field' placeholder='Enter Your Message To Convert' style='color: #FFFFFF;' id='Message2' required></input></p>
+					<p><input type='color' class='input-field' id='Color1' required></input></p>
+					<p><input type='color' class='input-field' id='Color2' required></input></p>
+					<p><button class='button' py-click='Convert(js.document.getElementById("Message2").value, js.document.getElementById("Color1").value, js.document.getElementById("Color2").value)'>Convert</button></p>
+					<span id='Output2'></span>
 				</p>
 			</div>
 			<div class='square'>
